@@ -1,6 +1,6 @@
 # CAMOLO
 
-Camouflage YOLO - (CAMOLO) trains adversarial patches to confuse the [YOLO](https://pjreddie.com/darknet/yolo/) family of object detection algorithms.  This repository is an extension of [adversarial-yolo](https://gitlab.com/EAVISE/adversarial-yolo), with a number of bespoke enhancements as well as incorporation of data pre-processing and evaluation scripts from [yoltv4](https://github.com/avanetten/yoltv4). Enhanc
+Camouflage YOLO - (CAMOLO) trains adversarial patches to confuse the [YOLO](https://pjreddie.com/darknet/yolo/) family of object detection algorithms.  This repository is an extension of [adversarial-yolo](https://gitlab.com/EAVISE/adversarial-yolo), with a number of bespoke enhancements as well as incorporation of data pre-processing and evaluation scripts from [yoltv4](https://github.com/avanetten/yoltv4).
 
 ## 1. Build Docker
 
