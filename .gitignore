@@ -1,0 +1,12 @@
+private
+backup
+legacy
+.DS_Store
+*.pyc
+*.swp
+*.log
+*.bk
+*.o
+*.so
+*.idx
+*.pack
