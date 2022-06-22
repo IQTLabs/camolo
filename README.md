@@ -35,3 +35,6 @@ Edit patch\_config.py and then run train\_patch.py.
 This will train an adversarial patch that when overlaid on an object will (hopefully) fool YOLO.  For example:
 
 ![Alt text](docs/images/patch_yolt2_ave_26x26_alpha0p8_32vals_visdrone_v1_4cat_obj_only_v2_epoch20.jpg?raw=true "")
+
+
+## 3. See [notebooks](https://github.com/IQTLabs/camolo/tree/main/notebooks) for details on training and testing patches.
