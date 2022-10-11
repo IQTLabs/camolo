@@ -1,6 +1,9 @@
 """
 Training code for Adversarial patch training
 
+To run:
+python train_patch.py [model]
+e.g.:    python train_patch.py visdrone_v1_4cat_obj_only_tiny_gray_v1
 
 """
 

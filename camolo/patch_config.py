@@ -15,7 +15,8 @@ class BaseConfig(object):
         """
         Set the defaults.
         """
-        self.src_dir = "/local_data/cosmiq/src/avanetten/camouflage/adversarial-yolt"
+        # self.src_dir = "/local_data/cosmiq/src/avanetten/camouflage/adversarial-yolt"
+        self.src_dir = "/local_data/cosmiq/src/avanetten/camolo"
         self.img_dir = "inria/Train/pos"
         self.lab_dir = "inria/Train/pos/yolo-labels"
         self.cfgfile = "cfg/yolo.cfg"
@@ -35,9 +36,123 @@ class BaseConfig(object):
         self.batch_size = 20
         self.loss_target = lambda obj, cls: obj * cls
         
+
+        
+        
+#####################
+## AVE Experiments (patch detection) ##
+#####################
+       
+class visdrone_patch_detect_v0(BaseConfig):
+    """
+    VisDrone: Detect existance of patches
+    """
+
+    def __init__(self):
+        super().__init__()
+        
+        self.class_name = self.__class__.__name__
+        self.patch_name = self.class_name
+        self.cfgfile = '/local_data/cosmiq/src/avanetten/yoltv4/darknet/cfg/_backup/yolt2_ave_26x26_visdrone_patch_detect_10cat_generic_v0.cfg'
+        self.weightfile= '/local_data/cosmiq/src/avanetten/yoltv4/darknet/backup/yolt2_ave_26x26_visdrone_patch_detect_10cat_generic_v0_final.weights'
+        self.cls_id = 0
+        self.num_cls = 1
+        
 #####################
 ## AVE Experiments ##
 #####################
+
+
+class visdrone_v1_4cat_obj_only_w0(BaseConfig):
+    """
+    VisDrone: Generate a patch that minimises object score. (include patch_detect)
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.class_name = self.__class__.__name__
+        self.patch_name = 'patch_yolt2_ave_26x26_alpha06_' + self.class_name
+        self.cfgfile = '/local_data/cosmiq/src/avanetten/yoltv4/darknet/cfg/_backup/yolt2_ave_26x26_visdrone_v1_4cat.cfg'
+        self.weightfile= '/local_data/cosmiq/src/avanetten/camolo/weights/VisDrone/yolt2_ave_26x26_visdrone_v1_4cat_final.weights'
+        self.img_dir = '/local_data/cosmiq/wdata/avanetten/VisDrone/data/VisDrone2019-DET-train/yolt/v1_4cat/images_only'
+        self.lab_dir = '/local_data/cosmiq/wdata/avanetten/VisDrone/data/VisDrone2019-DET-train/yolt/v1_4cat/labels'
+        self.printfile = '/local_data/cosmiq/src/avanetten/camolo/camolo/non_printability/cowc_32values.txt'
+        self.patchfile = '/local_data/cosmiq/src/avanetten/camolo/saved_patches/patch_yolt2_ave_26x26_alpha0p5_32vals_visdrone_v1_4cat_obj_only_v5/patch_yolt2_ave_26x26_alpha0p5_32vals_visdrone_v1_4cat_obj_only_v5_epoch66.jpg' 
+        self.patch_size = 64
+        self.target_size_frac = 0.25
+        self.patch_alpha = 0.6
+        self.patch_detect_mult = 1.0
+        self.cls_id = 0
+        self.num_cls = 4
+        self.batch_size = 12
+        self.n_epochs = 1000
+        self.max_lab = 40      
+        self.start_learning_rate = 0.05
+        self.tv_mult = 2.5
+        self.nps_mult = 0.01
+        self.scheduler_factory = lambda x: optim.lr_scheduler.ReduceLROnPlateau(x, 'min', patience=10)
+        self.loss_target = lambda obj, cls: obj
+    
+class visdrone_v1_4cat_obj_only_gray_w1(BaseConfig):
+    """
+    VisDrone: Generate a patch that minimises object score. (include patch_detect)
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.class_name = self.__class__.__name__
+        self.patch_name = 'patch_yolt2_ave_26x26_alpha075_' + self.class_name
+        self.cfgfile = '/local_data/cosmiq/src/avanetten/yoltv4/darknet/cfg/_backup/yolt2_ave_26x26_visdrone_v1_4cat.cfg'
+        self.weightfile= '/local_data/cosmiq/src/avanetten/camolo/weights/VisDrone/yolt2_ave_26x26_visdrone_v1_4cat_final.weights'
+        self.img_dir = '/local_data/cosmiq/wdata/avanetten/VisDrone/data/VisDrone2019-DET-train/yolt/v1_4cat/images_only'
+        self.lab_dir = '/local_data/cosmiq/wdata/avanetten/VisDrone/data/VisDrone2019-DET-train/yolt/v1_4cat/labels'
+        self.printfile = '/local_data/cosmiq/src/avanetten/camolo/camolo/non_printability/cowc_subtle_grays_v0.txt'
+        self.patchfile = '/local_data/cosmiq/src/avanetten/camolo/saved_patches/patch_yolt2_ave_26x26_alpha1_visdrone_v1_4cat_obj_only_tiny_gray_v0/patch_yolt2_ave_26x26_alpha1_visdrone_v1_4cat_obj_only_tiny_gray_v0_epoch999.jpg'
+        self.patch_size = 128
+        self.target_size_frac = 0.25
+        self.patch_alpha = 0.75
+        self.patch_detect_mult = 1.0
+        self.cls_id = 0
+        self.num_cls = 4
+        self.batch_size = 12
+        self.n_epochs = 1000
+        self.max_lab = 40      
+        self.start_learning_rate = 0.05
+        self.tv_mult = 0.1
+        self.nps_mult = 5
+        self.scheduler_factory = lambda x: optim.lr_scheduler.ReduceLROnPlateau(x, 'min', patience=10)
+        self.loss_target = lambda obj, cls: obj
+        
+class visdrone_v1_4cat_obj_only_w2(BaseConfig):
+    """
+    VisDrone: Generate a patch that minimises object score. (include patch_detect)
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.class_name = self.__class__.__name__
+        self.patch_name = 'patch_yolt2_ave_26x26_alpha0p8_' + self.class_name
+        self.cfgfile = '/local_data/cosmiq/src/avanetten/yoltv4/darknet/cfg/_backup/yolt2_ave_26x26_visdrone_v1_4cat.cfg'
+        self.weightfile= '/local_data/cosmiq/src/avanetten/camolo/weights/VisDrone/yolt2_ave_26x26_visdrone_v1_4cat_final.weights'
+        self.img_dir = '/local_data/cosmiq/wdata/avanetten/VisDrone/data/VisDrone2019-DET-train/yolt/v1_4cat/images_only'
+        self.lab_dir = '/local_data/cosmiq/wdata/avanetten/VisDrone/data/VisDrone2019-DET-train/yolt/v1_4cat/labels'
+        self.printfile = '/local_data/cosmiq/src/avanetten/camolo/camolo/non_printability/cowc_32values.txt'
+        self.patchfile = '/local_data/cosmiq/src/avanetten/camolo/saved_patches/patch_yolt2_ave_26x26_alpha0p8_grays_visdrone_v1_4cat_obj_only_gray_v2/patch_yolt2_ave_26x26_alpha0p8_grays_visdrone_v1_4cat_obj_only_gray_v2_epoch38.jpg' 
+        self.patch_size = 64
+        self.target_size_frac = 0.25
+        self.patch_alpha = 0.8
+        self.patch_detect_mult = 1.0
+        self.cls_id = 0
+        self.num_cls = 4
+        self.batch_size = 12
+        self.n_epochs = 1000
+        self.max_lab = 40      
+        self.start_learning_rate = 0.05
+        self.tv_mult = 2.5
+        self.nps_mult = 0.01
+        self.scheduler_factory = lambda x: optim.lr_scheduler.ReduceLROnPlateau(x, 'min', patience=10)
+        self.loss_target = lambda obj, cls: obj
+
 
 # class visdrone_v1_4cat_obj_only_gray_v2p4(BaseConfig):
 #     """
@@ -67,7 +182,7 @@ class BaseConfig(object):
 #         self.scheduler_factory = lambda x: optim.lr_scheduler.ReduceLROnPlateau(x, 'min', patience=10)
 #         self.max_tv = 0.165
 #         self.loss_target = lambda obj, cls: obj
-
+    
 
 class visdrone_v1_4cat_obj_only_tiny_gray_v1(BaseConfig):
     """
@@ -1074,5 +1189,11 @@ patch_configs = {
     "visdrone_v1_4cat_class_only_v1": visdrone_v1_4cat_class_only_v1,
     "visdrone_v1_4cat_obj_only_tiny_v0": visdrone_v1_4cat_obj_only_tiny_v0,
     "visdrone_v1_4cat_obj_only_tiny_gray_v0": visdrone_v1_4cat_obj_only_tiny_gray_v0,
-    "visdrone_v1_4cat_obj_only_tiny_gray_v1": visdrone_v1_4cat_obj_only_tiny_gray_v1
+    "visdrone_v1_4cat_obj_only_tiny_gray_v1": visdrone_v1_4cat_obj_only_tiny_gray_v1,
+    
+    "visdrone_patch_detect_v0": visdrone_patch_detect_v0,
+    "visdrone_v1_4cat_obj_only_w0": visdrone_v1_4cat_obj_only_w0,
+    "visdrone_v1_4cat_obj_only_gray_w1": visdrone_v1_4cat_obj_only_gray_w1,
+    "visdrone_v1_4cat_obj_only_w2": visdrone_v1_4cat_obj_only_w2,
+    
 }
